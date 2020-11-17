@@ -18,18 +18,23 @@
       <div class="info">
         <el-card class="box-card">
           <div  class="text item">
-            {{ "ID:" + books[index].ID }}
+            {{ "书名:" + booksList[index].bookName  }}
           </div>
           <div  class="text item">
-            {{ "书名:" + books[index].bookName }}
+            {{ "国家:" + booksList[index].country }}
           </div>
           <div  class="text item">
-            {{ "作者:" + books[index].author }}
+            {{ "类型:" + booksList[index].type }}
+          </div>
+          <div  class="text item">
+            {{ "篇幅:" + booksList[index].length }}
+          </div>
+          <div  class="text item">
+            {{ "主题:" + booksList[index].theme }}
           </div>
         </el-card>
         
       </div>
-      <el-divider class="fengexian"></el-divider>
     </div>
 
   </div>
@@ -62,21 +67,34 @@ export default {
           str:false
         },
       ],
-      books: [
+      booksList: [
         {
-          ID: 1,
-          bookName: "《三国演义》",
-          author: "1",
+          bookName: "水浒传",
+          country: "中国",
+          type: "武侠",
+          length: "这么长",
+          theme: "情义",
         },
         {
-          ID: 2,
-          bookName: "《三国演义》",
-          author: "2",
+          bookName: "水浒传",
+          country: "中国",
+          type: "不知道",
+          length: "这么长",
+          theme: "情义",
         },
         {
-          ID: 3,
-          bookName: "《三国演义》",
-          author: "3",
+          bookName: "水浒传",
+          country: "中国",
+          type: "不知道",
+          length: "这么长",
+          theme: "情义",
+        },
+        {
+          bookName: "水浒传",
+          country: "中国",
+          type: "不知道",
+          length: "这么长",
+          theme: "情义",
         },
       ],
     };
@@ -86,6 +104,22 @@ export default {
       console.log("submit!");
       this.jiazai[index].str = true;
     },
+    getBooksList(){
+      this.axios.get('http://jspang.com/DemoApi/oftenGoods.php')
+       //then获取成功；response成功后的返回值（对象）
+      .then(response=>{
+         console.log(response);
+         this.booksList=response.data;
+      })
+       //获取失败
+      .catch(error=>{
+        console.log(error);
+        alert('网络错误，不能访问');
+      })
+    }
+  },
+  created() {
+    this.getBooksList()
   },
 };
 </script>
@@ -93,23 +127,23 @@ export default {
 <style scoped>
 .book {
   margin-top: 20px;
+  
 }
 
 .main-container {
   position: absolute;
   width: 100%;
-  height: 100%;
-  background-color: #c6ddff;
 }
 .shuming {
   width: 350px;
 }
  .text {
-    font-size: 14px;
+    font-size: 13px;
+    padding: 0 10;
   }
 
   .item {
-    padding: 8px 0;
+    padding: 4px 0;
 
   }
 
@@ -117,12 +151,17 @@ export default {
     width: 480px;
     margin-left: 430px;
     height: 150px;
+    padding: 0 10px;
   }
   .info{
-    margin-top: -10px;
+    margin-top: -15px;
     height: 150px;
   }
   .fengexian{
     margin: 14px 0px;
   }
+  .demo-form-inline{
+    margin-left: 480px;
+  }
+ 
 </style>

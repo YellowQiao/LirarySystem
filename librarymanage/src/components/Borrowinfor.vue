@@ -1,15 +1,49 @@
 <template>
   <div class="container">
+  <div id="nav">
+       <el-breadcrumb separator="/">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item><a href="/">我是借阅者</a></el-breadcrumb-item>
+      <el-breadcrumb-item :to="{path:'/mybookshelf'}"><a>信息修改</a></el-breadcrumb-item>
+      <el-breadcrumb-item :to="{path:'/borrowinfor'}"><a>借阅历史</a></el-breadcrumb-item>
+    </el-breadcrumb>
+    </div>
     <div v-show="xianshi" class="xiangqingyemian">
-      <el-card class="box-card">
-        <div class="text item">
-          {{ "用户编号:" + "100021 "}}  {{"用户姓名: " + " 张三 "}}   {{" 归还还剩日期:" + "7天"}}
-        </div>
-        <div class="text item">
-           {{ "用户编号:" + "100021 " }}    {{" 用户姓名:" + "张三 "}}     {{" 归还还剩日期:" + "7天"}}
-        </div>
-
-      </el-card>
+      <el-row :gutter="12">
+    <el-col :span="8">
+    <el-card shadow="hover">
+      用户编号：{{userdata[0].userId}}
+    </el-card>
+  </el-col>
+  <el-col :span="8">
+    <el-card shadow="hover">
+      用户姓名：
+    </el-card>
+  </el-col>
+  <el-col :span="8">
+    <el-card shadow="hover">
+      距归还还剩：
+    </el-card>
+  </el-col>
+  </el-row>
+     
+      <el-row :gutter="12">
+    <el-col :span="8">
+    <el-card shadow="hover">
+      书籍名称：
+    </el-card>
+  </el-col>
+  <el-col :span="8">
+    <el-card shadow="hover">
+      节约时间：
+    </el-card>
+  </el-col>
+  <el-col :span="8">
+    <el-card shadow="hover">
+      借阅有效期：
+    </el-card>
+  </el-col>
+  </el-row>
     </div>
 
     <div class="demo-input-suffix">
@@ -20,22 +54,26 @@
         v-model="input2"
       >
       </el-input>
-      <el-button type="primary" icon="el-icon-search">搜索</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
     </div>
     <div class="tb">
       <el-table
         :data="
-          tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+          bookData.slice((currentPage - 1) * pageSize, currentPage * pageSize)
         "
         style="width: 100%"
       >
-        <el-table-column prop="date" label="借书日期" width="250">
+        <el-table-column prop="bookName" label="书籍名" width="150">
         </el-table-column>
-        <el-table-column prop="ID" label="图书编号" width="200">
+        <el-table-column prop="country" label="国家" width="150">
         </el-table-column>
-        <el-table-column prop="bookName" label="书名" width="300">
+        <el-table-column prop="type" label="类型" width="150">
         </el-table-column>
-        <el-table-column label="详情" width="250"
+        <el-table-column prop="length" label="篇幅" width="150">
+        </el-table-column>
+        <el-table-column prop="theme" label="主题" width="150">
+        </el-table-column>
+        <el-table-column label="详情" width="200"
           ><el-row>
             <el-button v-on:click="onLook" type="info" round
               >查看详情</el-button
@@ -45,10 +83,6 @@
       </el-table>
     </div>
     <!-- 分页器 -->
-    <!-- <div class="block" style="margin-top:15px;">
-            <el-pagination align='center' @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[1,5,10,20]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="tableData.length">
-            </el-pagination>
-        </div> -->
     <div class="page">
       <el-pagination
         background
@@ -70,43 +104,47 @@ export default {
     return {
       input2: "",
       xianshi: false,
-      bookdata: [],
-      tableData: [
+      bookData: [
         {
-          date: "2016-05-03",
-          ID: "王小虎",
-          bookName: "上海市普陀区金沙江路 1518 弄",
+          bookName: "水浒传",
+          country: "中国",
+          type: "武侠",
+          length: "这么长",
+          theme: "情义",
         },
         {
-          date: "2016-05-02",
-          ID: "王小虎",
-          bookName: "上海市普陀区金沙江路 1518 弄",
+          bookName: "水浒传",
+          country: "中国",
+          type: "不知道",
+          length: "这么长",
+          theme: "情义",
         },
         {
-          date: "2016-05-04",
-          ID: "王小虎",
-          bookName: "上海市普陀区金沙江路 1518 弄",
+          bookName: "水浒传",
+          country: "中国",
+          type: "不知道",
+          length: "这么长",
+          theme: "情义",
         },
         {
-          date: "2016-05-01",
-          ID: "王小虎",
-          bookName: "上海市普陀区金沙江路 1518 弄",
+          bookName: "水浒传",
+          country: "中国",
+          type: "不知道",
+          length: "这么长",
+          theme: "情义",
         },
+      ],
+      userdata: [
         {
-          date: "2016-05-08",
-          ID: "王小虎",
-          bookName: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-06",
-          ID: "王小虎",
-          bookName: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-07",
-          ID: "王小虎",
-          bookName: "上海市普陀区金沙江路 1518 弄",
-        },
+          userId: 111,
+          name: "诸葛亮",
+          leftdate: 7,
+          bookName: "三国演义",
+          borrowdate: "2018-8-8",
+          youxiaoqi: "3月"
+        }
+        
+
       ],
       currentPage: 1, // 当前页码
       total: 20, // 总条数
@@ -117,6 +155,19 @@ export default {
     onLook() {
       this.xianshi = true;
     },
+    search(){
+      console.log("点击了搜索")
+    },
+    async getBookData () {
+      const { data: res } = await this.$http.get('users', {
+        params: this.queryInfo
+      })
+      if (res.meta.status !== 200) {
+        return this.$message.error('获取用户列表失败！')
+      }
+      this.bookData = res.data.users
+      this.totle = res.data.totle
+      },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.currentPage = 1;
@@ -127,18 +178,19 @@ export default {
       this.currentPage = val;
     },
   },
+  created() {
+    this.getBookData()
+  },
 };
 </script>
 
 <style  scoped>
 .container {
   width: 100%;
-  height: 100%;
   position: absolute;
-  background-color: #c6ddff;
 }
 .page {
-  background-color: #c6ddff;
+  
   width: 500px;
   margin-left: 600px;
 }
@@ -146,13 +198,15 @@ export default {
   width: 200px;
 }
 .xiangqingyemian {
-  height: 180px;
-  margin-top: 5px;
+  height: 150px;
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .demo-input-suffix {
-  margin-left: 540px;
+  margin-left: 700px;
   margin-bottom: 10px;
-  margin-top: 100px;
+  margin-top: 50px;
 }
 .text {
   font-size: 14px;
@@ -167,11 +221,12 @@ export default {
   margin: 0px 200px 10px;
 }
 .tb {
-  margin-left: 140px;
-  margin-right: 140px;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 20px;
   width: fit-content;
   border: 2px solid  rgb(175, 193, 241);
   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
 }
+
 </style>
