@@ -12,7 +12,7 @@
       <el-row :gutter="12">
     <el-col :span="8">
     <el-card shadow="hover">
-      用户编号：{{userdata[0].userId}}
+      用户编号：{{detail[0].userId}}
     </el-card>
   </el-col>
   <el-col :span="8">
@@ -35,7 +35,7 @@
   </el-col>
   <el-col :span="8">
     <el-card shadow="hover">
-      节约时间：
+      借阅时间：
     </el-card>
   </el-col>
   <el-col :span="8">
@@ -106,6 +106,7 @@ export default {
       xianshi: false,
       bookData: [
         {
+          bookId: 222,
           bookName: "水浒传",
           country: "中国",
           type: "武侠",
@@ -113,6 +114,7 @@ export default {
           theme: "情义",
         },
         {
+          bookId: 222,
           bookName: "水浒传",
           country: "中国",
           type: "不知道",
@@ -120,6 +122,7 @@ export default {
           theme: "情义",
         },
         {
+          bookId: 222,
           bookName: "水浒传",
           country: "中国",
           type: "不知道",
@@ -127,6 +130,7 @@ export default {
           theme: "情义",
         },
         {
+          bookId: 222,
           bookName: "水浒传",
           country: "中国",
           type: "不知道",
@@ -134,7 +138,7 @@ export default {
           theme: "情义",
         },
       ],
-      userdata: [
+      detail: [
         {
           userId: 111,
           name: "诸葛亮",

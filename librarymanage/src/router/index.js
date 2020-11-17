@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Mybookshelf from '../components/Mybookshelf'
 import Borrowinfor from '../components/Borrowinfor'
+import ModifyUserInfor from '../components/ModifyUserInfor'
 
 Vue.use(VueRouter)
 
@@ -15,7 +16,12 @@ const routes = [
     path: '/borrowinfor',
     name: 'Borrowinfor',
     component: Borrowinfor
-  }
+  },
+  {
+    path: '/modifyUserInfor',
+    name: 'ModifyUserInfor',
+    component: ModifyUserInfor
+  },
 ]
 
 const router = new VueRouter({
