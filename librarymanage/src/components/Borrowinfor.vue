@@ -1,49 +1,51 @@
 <template>
   <div class="container">
-  <div id="nav">
-       <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item><a href="/">我是借阅者</a></el-breadcrumb-item>
-      <el-breadcrumb-item :to="{path:'/mybookshelf'}"><a>信息修改</a></el-breadcrumb-item>
-      <el-breadcrumb-item :to="{path:'/borrowinfor'}"><a>借阅历史</a></el-breadcrumb-item>
-    </el-breadcrumb>
+    <div id="nav">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item><a href="/">我是借阅者</a></el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/mybookshelf' }"
+          ><a>信息修改</a></el-breadcrumb-item
+        >
+        <el-breadcrumb-item :to="{ path: '/borrowinfor' }"
+          ><a>借阅历史</a></el-breadcrumb-item
+        >
+      </el-breadcrumb>
     </div>
     <div v-show="xianshi" class="xiangqingyemian">
       <el-row :gutter="12">
-    <el-col :span="8">
-    <el-card shadow="hover">
-      用户编号：{{detail[0].userId}}
-    </el-card>
-  </el-col>
-  <el-col :span="8">
-    <el-card shadow="hover">
-      用户姓名：
-    </el-card>
-  </el-col>
-  <el-col :span="8">
-    <el-card shadow="hover">
-      距归还还剩：
-    </el-card>
-  </el-col>
-  </el-row>
-     
+        <el-col :span="8">
+          <el-card shadow="hover"> 用户编号：{{ detail[0].userId }} </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card shadow="hover">
+            用户姓名：
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card shadow="hover">
+            距归还还剩：{{detail[0].retTime}}
+          </el-card>
+        </el-col>
+      </el-row>
+
       <el-row :gutter="12">
-    <el-col :span="8">
-    <el-card shadow="hover">
-      书籍名称：
-    </el-card>
-  </el-col>
-  <el-col :span="8">
-    <el-card shadow="hover">
-      借阅时间：
-    </el-card>
-  </el-col>
-  <el-col :span="8">
-    <el-card shadow="hover">
-      借阅有效期：
-    </el-card>
-  </el-col>
-  </el-row>
+        <el-col :span="8">
+          <el-card shadow="hover">
+            书籍名称：{{detail[0].bookName}}
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card shadow="hover">
+            借阅时间：{{detail[0].borrowTime}}
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card shadow="hover">
+            借阅有效期：{{detail[0].validTime}}
+          </el-card>
+        </el-col>
+      </el-row>
     </div>
 
     <div class="demo-input-suffix">
@@ -54,18 +56,18 @@
         v-model="input2"
       >
       </el-input>
-      <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="search"
+        >搜索</el-button
+      >
     </div>
     <div class="tb">
       <el-table
-        :data="
-          bookData.slice((currentPage - 1) * pageSize, currentPage * pageSize)
-        "
+        :data="bookData"
         style="width: 100%"
       >
         <el-table-column prop="bookName" label="书籍名" width="150">
         </el-table-column>
-        <el-table-column prop="country" label="国家" width="150">
+        <el-table-column prop="nation" label="国家" width="150">
         </el-table-column>
         <el-table-column prop="type" label="类型" width="150">
         </el-table-column>
@@ -96,7 +98,6 @@
     </div>
   </div>
 </template>
-  
 
 <script>
 export default {
@@ -106,72 +107,54 @@ export default {
       xianshi: false,
       bookData: [
         {
-          bookId: 222,
-          bookName: "水浒传",
-          country: "中国",
-          type: "武侠",
-          length: "这么长",
-          theme: "情义",
-        },
-        {
-          bookId: 222,
-          bookName: "水浒传",
-          country: "中国",
-          type: "不知道",
-          length: "这么长",
-          theme: "情义",
-        },
-        {
-          bookId: 222,
-          bookName: "水浒传",
-          country: "中国",
-          type: "不知道",
-          length: "这么长",
-          theme: "情义",
-        },
-        {
-          bookId: 222,
-          bookName: "水浒传",
-          country: "中国",
-          type: "不知道",
-          length: "这么长",
-          theme: "情义",
-        },
+          bookName:"水浒传",
+          nation:"中国",
+          type:"不知道",
+          length:"很长",
+          theme:"不知道",
+        }
       ],
       detail: [
         {
           userId: 111,
           name: "诸葛亮",
-          leftdate: 7,
-          bookName: "三国演义",
-          borrowdate: "2018-8-8",
-          youxiaoqi: "3月"
-        }
-        
-
+          retTime: " ",
+          bookName: " ",
+          borrowTime: " ",
+          validTime: " ",
+        },
       ],
       currentPage: 1, // 当前页码
-      total: 20, // 总条数
-      pageSize: 3, // 每页的数据条数
+     // 每页的数据条数
+     pageSize: 5, 
+     total: 20, // 总条数
     };
   },
   methods: {
     onLook() {
       this.xianshi = true;
+      this.$axios
+      .get("/borrowHistory/2")
+      .then((res) => {
+        this.detail = res.data;
+      });
     },
-    search(){
-      console.log("点击了搜索")
+    search() {
+      console.log("点击了搜索");
+      // this.$axios
+      // .get("/searchHisByBookName",Params:{
+      //   userId:2,
+      //   bookName:"中国青年"
+      // })
+      
     },
-    async getBookData () {
-      const { data: res } = await this.$http.get('users', {
-        params: this.queryInfo
-      })
-      if (res.meta.status !== 200) {
-        return this.$message.error('获取用户列表失败！')
-      }
-      this.bookData = res.data.users
-      this.totle = res.data.totle
-      },
+     getBookData() {
+      this.$axios
+        .post("/BookShow",{Params:this.currentPage-1})
+        .then((res) => {
+          this.bookData = res.data;
+        });
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.currentPage = 1;
@@ -180,21 +163,21 @@ export default {
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       this.currentPage = val;
+      this.getBookData()
     },
   },
   created() {
-    this.getBookData()
+    // this.getBookData();
   },
 };
 </script>
 
-<style  scoped>
+<style scoped>
 .container {
   width: 100%;
   position: absolute;
 }
 .page {
-  
   width: 500px;
   margin-left: 600px;
 }
@@ -229,8 +212,7 @@ export default {
   margin-right: auto;
   margin-top: 20px;
   width: fit-content;
-  border: 2px solid  rgb(175, 193, 241);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
+  border: 2px solid rgb(175, 193, 241);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 }
-
 </style>
