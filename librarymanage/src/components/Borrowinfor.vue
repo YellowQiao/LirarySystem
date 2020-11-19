@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+  <!-- 导航栏 -->
     <div id="nav">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -12,19 +13,20 @@
         >
       </el-breadcrumb>
     </div>
+    <!-- 详情页面 -->
     <div v-show="xianshi" class="xiangqingyemian">
       <el-row :gutter="12">
         <el-col :span="8">
-          <el-card shadow="hover"> 用户编号：{{ detail[0].userId }} </el-card>
+          <el-card shadow="hover"> 用户编号：111 </el-card>
         </el-col>
         <el-col :span="8">
           <el-card shadow="hover">
-            用户姓名：
+            用户姓名：武松
           </el-card>
         </el-col>
         <el-col :span="8">
           <el-card shadow="hover">
-            距归还还剩：{{detail[0].retTime}}
+            距归还还剩：7天
           </el-card>
         </el-col>
       </el-row>
@@ -32,17 +34,17 @@
       <el-row :gutter="12">
         <el-col :span="8">
           <el-card shadow="hover">
-            书籍名称：{{detail[0].bookName}}
+            书籍名称：{{detail.bookName}}
           </el-card>
         </el-col>
         <el-col :span="8">
           <el-card shadow="hover">
-            借阅时间：{{detail[0].borrowTime}}
+            借阅时间：{{detail.borrowTime}}
           </el-card>
         </el-col>
         <el-col :span="8">
           <el-card shadow="hover">
-            借阅有效期：{{detail[0].validTime}}
+            借阅有效期：{{detail.validTime}}
           </el-card>
         </el-col>
       </el-row>
@@ -56,14 +58,16 @@
         v-model="input2"
       >
       </el-input>
-      <el-button type="primary" icon="el-icon-search" @click="search"
+      <el-button type="primary"  icon="el-icon-search" @click="search"
         >搜索</el-button
       >
     </div>
+    <!-- 所有借阅历史 -->
     <div class="tb">
       <el-table
         :data="bookData"
         style="width: 100%"
+        
       >
         <el-table-column prop="bookName" label="书籍名" width="150">
         </el-table-column>
@@ -76,11 +80,10 @@
         <el-table-column prop="theme" label="主题" width="150">
         </el-table-column>
         <el-table-column label="详情" width="200"
-          ><el-row>
-            <el-button v-on:click="onLook" type="info" round
+          > <template slot-scope="scope">
+            <el-button v-on:click="onLook(scope.row)" type="info" round
               >查看详情</el-button
-            ></el-row
-          ></el-table-column
+            ></template></el-table-column
         >
       </el-table>
     </div>
@@ -88,11 +91,12 @@
     <div class="page">
       <el-pagination
         background
-        layout="prev, pager, next"
-        :total="500"
-        @size-change="handleSizeChange"
+        layout="total,prev, pager, next"
         @current-change="handleCurrentChange"
-        :current-page="currentPage"
+        @size-change="handleSizeChange"
+        :current-page.sync="currentPage"
+        :page-size="pageSize"
+        :total="total"
       >
       </el-pagination>
     </div>
@@ -106,60 +110,127 @@ export default {
       input2: "",
       xianshi: false,
       bookData: [
-        {
-          bookName:"水浒传",
-          nation:"中国",
-          type:"不知道",
-          length:"很长",
-          theme:"不知道",
-        }
+        // {
+        //   bookName:"水浒传",
+        //   nation:"中国",
+        //   type:"不知道",
+        //   length:"很长",
+        //   theme:"不知道",
+        // },
+        //  {
+          
+        //   bookName:"水浒传",
+        //   nation:"中国",
+        //   type:"不知道",
+        //   length:"很长",
+        //   theme:"不知道",
+        // },
+        //  {
+          
+        //   bookName:"水浒传",
+        //   nation:"中国",
+        //   type:"不知道",
+        //   length:"很长",
+        //   theme:"不知道",
+        // },
+        //  {
+        //   bookId: 4,
+        //   bookName:"水浒传",
+        //   nation:"中国",
+        //   type:"不知道",
+        //   length:"很长",
+        //   theme:"不知道",
+        // },
+        //  {
+        //   bookId: 5,
+        //   bookName:"水浒传",
+        //   nation:"中国",
+        //   type:"不知道",
+        //   length:"很长",
+        //   theme:"不知道",
+        // },
+        //  {
+        //   bookId: 6,
+        //   bookName:"水浒传",
+        //   nation:"中国",
+        //   type:"不知道",
+        //   length:"很长",
+        //   theme:"不知道",
+        // },
+        //  {
+        //   bookId: 7,
+        //   bookName:"水浒传",
+        //   nation:"中国",
+        //   type:"不知道",
+        //   length:"很长",
+        //   theme:"不知道",
+        // },
       ],
-      detail: [
+      detail: 
         {
-          userId: 111,
-          name: "诸葛亮",
+          // userId: 111,
+          // name: "诸葛亮",
           retTime: " ",
           bookName: " ",
           borrowTime: " ",
           validTime: " ",
         },
-      ],
       currentPage: 1, // 当前页码
      // 每页的数据条数
-     pageSize: 5, 
-     total: 20, // 总条数
+       pageSize: 5, 
+     total: 0, // 总条数
     };
   },
   methods: {
-    onLook() {
+    onLook(book) {
       this.xianshi = true;
+      console.log(book.id)
       this.$axios
-      .get("/borrowHistory/2")
+      .get("/borrowInfo/3")
       .then((res) => {
         this.detail = res.data;
+        console.log(res.data);
+        console.log(this.detail);
       });
+    },
+    getCount() {
+      this.$axios
+        .get("/borrowCount/5")
+        .then((res) => {
+          this.total = res.data
+        });
     },
     search() {
       console.log("点击了搜索");
-      // this.$axios
-      // .get("/searchHisByBookName",Params:{
-      //   userId:2,
-      //   bookName:"中国青年"
-      // })
-      
+      this.$axios({
+        method: 'post',
+        url: '/borrowUserLikeSearch',
+        data: {
+          userId: 5,
+          bookName: this.input2
+        }
+        }).then((res)=>{
+          this.bookData = res.data ;
+          this.total = this.bookData.length
+          console.log(this.total)
+        });
     },
      getBookData() {
-      this.$axios
-        .post("/BookShow",{Params:this.currentPage-1})
-        .then((res) => {
+      this.$axios({
+          method: 'post',
+          url: '/borrowPage',
+          data: {
+            userId: 5,
+            index: this.currentPage-1
+          }
+        }).then((res) => {
           this.bookData = res.data;
+          console.log(this.bookData)
         });
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-      this.currentPage = 1;
-      this.pageSize = val;
-    },
+        console.log(`每页 ${val} 条`);
+      },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       this.currentPage = val;
@@ -167,7 +238,10 @@ export default {
     },
   },
   created() {
-    // this.getBookData();
+    this.getCount();
+    this.getBookData();
+    // this.total=this.bookData.length
+    // console.log( this.pageSize);
   },
 };
 </script>

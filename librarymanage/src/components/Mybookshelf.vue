@@ -10,9 +10,10 @@
         <el-form-item>
           <el-input
             class="shuming"
-            placeholder="已借入书籍"
+            :placeholder="booksList[index].bookName"
             :disabled="true"
           ></el-input>
+          
         </el-form-item>
         <el-form-item>
           <el-button
@@ -24,9 +25,10 @@
           >
         </el-form-item>
       </el-form>
-      <div class="info">
+      <div class="info" >
         <el-card class="box-card">
-          <div class="text item">
+        <div v-if="booksList[index].bookName">
+        <div class="text item">
             {{ "书名:" + booksList[index].bookName }}
           </div>
           <div class="text item">
@@ -41,6 +43,7 @@
           <div class="text item">
             {{ "主题:" + booksList[index].theme }}
           </div>
+        </div>
         </el-card>
       </div>
     </div>
@@ -78,14 +81,14 @@ export default {
       booksList: [
         {
           bookId: 11,
-          bookName: "水浒传",
+          bookName: "《水浒传》",
           country: "中国",
           type: "武侠",
           length: "这么长",
           theme: "情义",
         },
         {
-          bookName: "水浒传",
+          bookName: "《红楼梦》",
           country: "中国",
           type: "不知道",
           length: "这么长",
@@ -93,10 +96,10 @@ export default {
         },
         {
           bookName: "",
-          country: "中国",
-          type: "不知道",
-          length: "这么长",
-          theme: "情义",
+          // country: "",
+          // type: "",
+          // length: "",
+          // theme: "",
         },
       ],
     };
